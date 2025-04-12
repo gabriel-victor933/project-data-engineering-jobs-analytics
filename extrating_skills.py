@@ -5,17 +5,22 @@ from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
 import time
 import os
+import psycopg2 # type: ignore
+from psycopg2.extras import execute_batch # type: ignore
 from dotenv import load_dotenv # type: ignore
 
 load_dotenv()
 
 USERNAME = os.getenv('POSTGRES_USERNAME')
 PASSWORD = os.getenv('POSTGRES_PASSWORD')
+DB = os.getenv('POSTGRES_DATABASE')
+HOST = os.getenv('POSTGRES_HOST')
+PORT = os.getenv('POSTGRES_PORT')
 
 def extract_text_from_dropdown(elems, remove_first=True):
     arr = []
     for elem in elems:
-        arr.append(elem.text)
+        arr.append((elem.text,))
 
     if remove_first:
         arr.pop(0)
@@ -45,13 +50,9 @@ element_exp = driver.find_element(By.CLASS_NAME,'list-group')
 
 exp = element_exp.text.split('\n')
 
-dict_exp = {
-    'level': [],
-    'description': []
-}
+tup_exp = []
 for i in range(0,len(exp),2):
-    dict_exp['level'].append(exp[i])
-    dict_exp['description'].append(exp[i+1])
+    tup_exp.append((exp[i],exp[i+1]))
 
 element_cat = driver.find_element(By.ID,'categoria')
 
@@ -74,15 +75,38 @@ for elem in elements_cat[1:]:
     
     dict_subcat[elem.text] = extract_text_from_dropdown(elems_subcat)
 
-
-# TODO: inserir experience_level no DB
-
-# TODO: Inserir categorias no db
-
-# TODO: inserir subcategorias
-
-# TODO: inserir skills
-
 time.sleep(1)
 
 driver.quit()
+
+try:
+    conn = psycopg2.connect(dbname=DB, user=USERNAME, password=PASSWORD, host=HOST, port=PORT)
+
+    with conn.cursor() as cur:
+        print('saving skills')
+        skills_tuples = [(skill, ) for skill in skills]
+        execute_batch(cur,'INSERT INTO skills (name) VALUES (%s)',(skills_tuples),page_size=50)
+
+        print('saving experience level')
+        cur.executemany('INSERT INTO experience_levels (level, description) VALUES (%s, %s)',tup_exp)
+
+        print('saving categories')
+        cur.executemany('INSERT INTO categories (type) VALUES (%s)',categories)
+
+        for subcat in dict_subcat:
+            cur.execute('SELECT id FROM categories WHERE type = %s;',(subcat,))
+
+            (id,) = cur.fetchone()
+
+            temp_tup = [(subcat,id) for (subcat,) in dict_subcat[subcat]]
+
+            cur.executemany('INSERT INTO subcategories (subtype, category_id) VALUES (%s,%s) ', temp_tup)
+
+    conn.commit()
+except psycopg2.Error as e:
+    print('DATABASE ERROR:')
+    print(e)
+finally: 
+    if conn:
+        conn.close()
+
