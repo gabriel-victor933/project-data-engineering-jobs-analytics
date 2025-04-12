@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "jobs_analytics_connection",
+            "database": "jobs_analytics",
+            "username": "postgres",
+            "password": "701460",
+            "connectionTimeout": 60
+        }
+    ]
+}
