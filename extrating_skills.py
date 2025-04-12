@@ -1,11 +1,16 @@
 """
 Extrair as skills desejadas e os nivels de experiência com a respectiva descrição.
 """
-from bs4 import BeautifulSoup # type: ignore
 from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
 import time
-import json
+import os
+from dotenv import load_dotenv # type: ignore
+
+load_dotenv()
+
+USERNAME = os.getenv('POSTGRES_USERNAME')
+PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
 def extract_text_from_dropdown(elems, remove_first=True):
     arr = []
@@ -24,7 +29,7 @@ URL_TEMP = 'https://www.99freelas.com.br/project/new'
 options = options = webdriver.ChromeOptions()
 options.timeouts = { 'implicit': 5000 } # Espera de 5s na localizacao de elemento
 options.add_argument("--start-maximized")
-#options.add_argument("--headless")
+options.add_argument("--headless")
 
 driver = webdriver.Chrome(options=options)
 
@@ -69,6 +74,14 @@ for elem in elements_cat[1:]:
     
     dict_subcat[elem.text] = extract_text_from_dropdown(elems_subcat)
 
+
+# TODO: inserir experience_level no DB
+
+# TODO: Inserir categorias no db
+
+# TODO: inserir subcategorias
+
+# TODO: inserir skills
 
 time.sleep(1)
 
