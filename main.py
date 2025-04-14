@@ -5,7 +5,7 @@ import os
 import psycopg2 # type: ignore
 from psycopg2.extras import execute_batch # type: ignore
 from dotenv import load_dotenv # type: ignore
-from tools import get_webdriver
+from tools import get_webdriver, save_jobs
 import datetime
 from utils import clean_string
 import json
@@ -97,14 +97,14 @@ for i in range(1,total_pages + 1):
 
             jobs_list.append(job_dict)
 
+        save_jobs(jobs_list)        
 
-        with open(f'dados_page{i}.json', 'w', encoding='utf-8') as f:
-            json.dump(jobs_list, f, ensure_ascii=False, indent=4)
+        break
     except Exception as e:
         print(f'Não foi possivel extrair dados da página {i}')
         print(e)
     
-
+    break
     time.sleep(2)
 
 

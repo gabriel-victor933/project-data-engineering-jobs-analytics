@@ -37,3 +37,5 @@ CREATE TABLE jobs_skills (
     job_id INT REFERENCES jobs(id)
 );
 
+INSERT INTO subcategories (subtype, category_id) 
+VALUES ('Outra Categoria', (SELECT id FROM categories WHERE type = 'Outra Categoria'));
