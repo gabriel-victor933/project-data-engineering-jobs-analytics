@@ -27,6 +27,7 @@ CREATE TABLE jobs (
     title VARCHAR(256) NOT NULL,
     description TEXT,
     publication_date DATE,
+    limit_date DATE,
     extraction_date DATE
 );
 

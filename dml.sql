@@ -1,1 +1,1 @@
-SELECT * FROM skills;
+SELECT * FROM ;

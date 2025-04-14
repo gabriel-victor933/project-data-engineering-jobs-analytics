@@ -1,21 +1,14 @@
 """
 Extrair as skills desejadas e os nivels de experiência com a respectiva descrição.
 """
-from selenium import webdriver # type: ignore
-from selenium.webdriver.common.by import By # type: ignore
 import time
+from tools import get_webdriver, get_db_connnection
 import os
-import psycopg2 # type: ignore
-from psycopg2.extras import execute_batch # type: ignore
 from dotenv import load_dotenv # type: ignore
+from selenium.webdriver.common.by import By # type: ignore
+from psycopg2.extras import execute_batch # type: ignore
+import psycopg2 # type: ignore
 
-load_dotenv()
-
-USERNAME = os.getenv('POSTGRES_USERNAME')
-PASSWORD = os.getenv('POSTGRES_PASSWORD')
-DB = os.getenv('POSTGRES_DATABASE')
-HOST = os.getenv('POSTGRES_HOST')
-PORT = os.getenv('POSTGRES_PORT')
 
 def extract_text_from_dropdown(elems, remove_first=True):
     arr = []
@@ -27,18 +20,12 @@ def extract_text_from_dropdown(elems, remove_first=True):
 
     return arr
 
-URL = 'https://www.99freelas.com.br/projects?categoria=web-mobile-e-software&data-da-publicacao=menos-de-3-dias-atras'
 
-URL_TEMP = 'https://www.99freelas.com.br/project/new'
+load_dotenv()
 
-options = options = webdriver.ChromeOptions()
-options.timeouts = { 'implicit': 5000 } # Espera de 5s na localizacao de elemento
-options.add_argument("--start-maximized")
-options.add_argument("--headless")
+URL = os.getenv('URL_SKILLS')
 
-driver = webdriver.Chrome(options=options)
-
-driver.get(URL_TEMP)
+driver = get_webdriver(URL)
 
 element_skills = driver.find_element(By.CLASS_NAME,'itens-to-select')
 
@@ -75,18 +62,19 @@ for elem in elements_cat[1:]:
     
     dict_subcat[elem.text] = extract_text_from_dropdown(elems_subcat)
 
+print('EXTRACTED')
 time.sleep(1)
 
 driver.quit()
 
 try:
-    conn = psycopg2.connect(dbname=DB, user=USERNAME, password=PASSWORD, host=HOST, port=PORT)
+    conn = get_db_connnection()
 
     with conn.cursor() as cur:
         print('saving skills')
         skills_tuples = [(skill, ) for skill in skills]
         execute_batch(cur,'INSERT INTO skills (name) VALUES (%s)',(skills_tuples),page_size=50)
-
+        
         print('saving experience level')
         cur.executemany('INSERT INTO experience_levels (level, description) VALUES (%s, %s)',tup_exp)
 
