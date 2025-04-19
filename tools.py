@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By # type: ignore
 import os
 from dotenv import load_dotenv # type: ignore
 import psycopg2 # type: ignore
-import json
 from itertools import product
 
 load_dotenv()
@@ -86,12 +85,13 @@ def save_jobs(jobs):
                 placeholders = ','.join(['%s'] * len(skills))
                 cur.execute(f'SELECT id FROM skills WHERE name IN ({placeholders})',skills)
                 skills_id = [id for (id,) in cur.fetchall()]
-                print(job_id)
+                
 
                 jobs_skills = list(product(job_id,skills_id))
 
                 cur.executemany('INSERT INTO jobs_skills (job_id, skill_id) VALUES (%s, %s)',jobs_skills)
 
+            print('job posted')
         except Exception as e:
             print(f'Error at upload of {job["title"]}')
             print(e)
@@ -99,8 +99,3 @@ def save_jobs(jobs):
         finally:
             conn.commit()  
 
-
-""" with open('dados.json', 'r', encoding='utf-8') as f:
-    dados = json.load(f)
-
-    save_jobs(dados) """

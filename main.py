@@ -14,7 +14,7 @@ load_dotenv()
 
 URL = os.getenv('URL_JOBS')
 
-driver = get_webdriver(f'{URL}&data-da-publicacao=menos-de-3-dias-atras',headless=False)
+driver = get_webdriver(f'{URL}&data-da-publicacao=menos-de-3-dias-atras',headless=True)
 
 results_header = driver.find_element(By.XPATH,'/html/body/div[1]/div/div[1]/p')
 total_pages = int(results_header.text.split(' ').pop(0))//10 + 1
@@ -99,14 +99,11 @@ for i in range(1,total_pages + 1):
 
         save_jobs(jobs_list)        
 
-        break
+        
     except Exception as e:
         print(f'Não foi possivel extrair dados da página {i}')
         print(e)
     
-    break
-    time.sleep(2)
-
 
 driver.quit()
 
