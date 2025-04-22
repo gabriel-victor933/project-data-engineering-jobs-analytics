@@ -10,10 +10,12 @@ import datetime
 from utils import clean_string
 import json
 
+
+print('initiating extraction!')
 load_dotenv()
 
-URL = os.getenv('URL_JOBS')
-
+URL = os.environ['URL_JOBS']
+print(f'teste: {URL}')
 driver = get_webdriver(f'{URL}&data-da-publicacao=menos-de-3-dias-atras',headless=True)
 
 results_header = driver.find_element(By.XPATH,'/html/body/div[1]/div/div[1]/p')
@@ -97,8 +99,12 @@ for i in range(1,total_pages + 1):
 
             jobs_list.append(job_dict)
 
-        save_jobs(jobs_list)        
+        #remover comentario depois
+        #save_jobs(jobs_list)        
 
+        print(jobs_list)
+
+        break
         
     except Exception as e:
         print(f'Não foi possivel extrair dados da página {i}')
