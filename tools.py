@@ -1,5 +1,7 @@
 from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
+from selenium.webdriver.chrome.service import Service # type: ignore
+from webdriver_manager.chrome import ChromeDriverManager # type: ignore
 import os
 import psycopg2 # type: ignore
 from itertools import product
@@ -20,7 +22,7 @@ def get_webdriver(url, headless=True):
     if headless:
         options.add_argument("--headless")
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
 
     driver.get(url)
 
