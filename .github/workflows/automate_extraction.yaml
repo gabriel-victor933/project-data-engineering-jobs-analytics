@@ -11,6 +11,11 @@ jobs:
     env:
       URL_SKILLS: ${{secrets.URL_SKILLS}}
       URL_JOBS: ${{secrets.URL_JOBS}}
+      POSTGRES_USERNAME: ${{secrets.POSTGRES_USERNAME}}
+      POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+      POSTGRES_DATABASE: ${{secrets.POSTGRES_DATABASE}}
+      POSTGRES_HOST: ${{secrets.POSTGRES_HOST}}
+      POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
     steps:
       - uses: actions/checkout@v4  
       - uses: actions/setup-python@v5
