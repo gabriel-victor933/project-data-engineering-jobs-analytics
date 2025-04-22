@@ -1,7 +1,7 @@
 name: Automate extraction
 
 on: 
-  scheduled: 
+  schedule: 
     - cron: '*/10 * * * *'
 
 jobs:
