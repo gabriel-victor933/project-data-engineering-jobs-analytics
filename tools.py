@@ -1,18 +1,16 @@
 from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
 import os
-from dotenv import load_dotenv # type: ignore
 import psycopg2 # type: ignore
 from itertools import product
 
-load_dotenv()
 
-USERNAME = os.getenv('POSTGRES_USERNAME')
-PASSWORD = os.getenv('POSTGRES_PASSWORD')
-DB = os.getenv('POSTGRES_DATABASE')
-HOST = os.getenv('POSTGRES_HOST')
-PORT = os.getenv('POSTGRES_PORT')
-URL = os.getenv('URL_SKILLS')
+USERNAME = os.environ['POSTGRES_USERNAME']
+PASSWORD = os.environ['POSTGRES_PASSWORD']
+DB = os.environ['POSTGRES_DATABASE']
+HOST = os.environ['POSTGRES_HOST']
+PORT = os.environ['POSTGRES_PORT']
+URL = os.environ['URL_SKILLS']
 
 def get_webdriver(url, headless=True):
     options = options = webdriver.ChromeOptions()
