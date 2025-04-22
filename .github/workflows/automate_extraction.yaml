@@ -1,6 +1,8 @@
 name: Automate extraction
 
-on: push
+on: 
+  scheduled: 
+    - cron: '*/10 * * * *'
 
 jobs:
   build:
