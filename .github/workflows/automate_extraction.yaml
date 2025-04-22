@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       URL_SKILLS: ${{secrets.URL_SKILLS}}
+      URL_JOBS: ${{secrets.URL_JOBS}}
     steps:
       - uses: actions/checkout@v4  
       - uses: actions/setup-python@v5
