@@ -1,1 +1,3 @@
-print('testing python workflow enviroment!')
+import datetime
+
+print(f'testing cron job! running at: {datetime.datetime.now()}')
