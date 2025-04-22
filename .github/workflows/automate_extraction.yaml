@@ -2,8 +2,6 @@ name: Automate extraction
 
 on: 
   push:
-  schedule: 
-    - cron: '*/10 * * * *'
 
 jobs:
   build:
@@ -21,19 +19,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11' 
-      - name: Install dependencies de SO
-        run: |
-          pip install selenium
-          sudo apt-get update
-          sudo apt-get install -y unzip xvfb libxi6 libgconf-2-4
-          wget https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.95/linux64/chrome-linux64.zip
-          unzip chrome-linux64.zip
-          sudo mv chrome-linux64 /opt/chrome
-          sudo ln -s /opt/chrome/chrome /usr/bin/google-chrome
-          wget https://storage.googleapis.com/chrome-for-testing-public/135.0.7049.95/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip
-          chmod +x chromedriver-linux64/chromedriver
-          sudo mv chromedriver-linux64/chromedriver /usr/bin/chromedriver
-      - run: sudo apt-get update && sudo apt-get install -y libpq-dev build-essential
+
       - run: pip install -r requirements.txt
       - run: python main.py
