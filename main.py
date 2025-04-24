@@ -18,7 +18,7 @@ URL = os.environ['URL_JOBS']
 print(f'teste: {type(URL)}')
 
 try:
-    driver = get_webdriver(f'{URL}&data-da-publicacao=menos-de-3-dias-atras',headless=True)
+    driver = get_webdriver(f'https://www.99freelas.com.br/projects?&data-da-publicacao=menos-de-3-dias-atras',headless=True)
     print('getted webdriver')
     results_header = driver.find_element(By.XPATH,'/html/body/div[1]/div/div[1]/p')
     total_pages = int(results_header.text.split(' ').pop(0))//10 + 1
