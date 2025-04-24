@@ -29,6 +29,7 @@ def get_webdriver(url, headless=True):
 
     service = Service("/usr/local/bin/chromedriver")
     driver = webdriver.Chrome(service=service, options=options)
+    
 
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
 
