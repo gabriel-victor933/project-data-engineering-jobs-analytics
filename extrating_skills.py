@@ -63,6 +63,8 @@ for elem in elements_cat[1:]:
     dict_subcat[elem.text] = extract_text_from_dropdown(elems_subcat)
 
 print('EXTRACTED')
+print(dict_subcat)
+
 time.sleep(1)
 
 driver.quit()
