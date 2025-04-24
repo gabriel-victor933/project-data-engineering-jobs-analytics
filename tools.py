@@ -27,9 +27,10 @@ def get_webdriver(url, headless=True):
     if headless:
         options.add_argument("--headless")
 
-    service = Service("/usr/local/bin/chromedriver")
-    driver = webdriver.Chrome(service=service, options=options)
-    
+    hub = os.getenv("SELENIUM_HUB", "http://localhost:4444/wd/hub")
+    # 3) connect to the remote Selenium service
+    driver = webdriver.Remote(command_executor=hub, options=options)
+
 
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
 
