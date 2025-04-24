@@ -15,7 +15,7 @@ print('initiating extraction!')
 load_dotenv()
 
 URL = os.environ['URL_JOBS']
-print(f'teste: {URL + '-12'}')
+print(f'teste: {type(URL)}')
 
 try:
     driver = get_webdriver(f'{URL}&data-da-publicacao=menos-de-3-dias-atras',headless=True)
