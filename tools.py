@@ -2,7 +2,7 @@ from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
 from selenium.webdriver.chrome.service import Service # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager # type: ignore
-from webdriver_manager.core.utils import ChromeType # type: ignore
+from webdriver_manager.core.os_manager import ChromeType # type: ignore
 import os
 import psycopg2 # type: ignore
 from itertools import product
