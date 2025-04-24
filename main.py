@@ -113,6 +113,7 @@ try:
         except Exception as e:
             print(f'Não foi possivel extrair dados da página {i}')
             print(e)
+            break
         
     driver.quit()
 
