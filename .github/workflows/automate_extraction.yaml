@@ -16,9 +16,12 @@ jobs:
       POSTGRES_DATABASE: ${{secrets.POSTGRES_DATABASE}}
       POSTGRES_HOST: ${{secrets.POSTGRES_HOST}}
       POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
+      SELENIUM_HUB: http://selenium:4444/wd/hub
     services:
       selenium:
         image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
         options: --shm-size=2gb
     steps:
       - uses: actions/checkout@v4  
