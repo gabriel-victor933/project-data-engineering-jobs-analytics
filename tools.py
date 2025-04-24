@@ -2,6 +2,7 @@ from selenium import webdriver # type: ignore
 from selenium.webdriver.common.by import By # type: ignore
 from selenium.webdriver.chrome.service import Service # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager # type: ignore
+from webdriver_manager.core.utils import ChromeType # type: ignore
 import os
 import psycopg2 # type: ignore
 from itertools import product
@@ -19,20 +20,19 @@ URL = os.environ['URL_SKILLS']
 def get_webdriver(url, headless=True):
     options = options = webdriver.ChromeOptions()
     options.timeouts = { 'implicit': 5000 } # Espera de 5s na localizacao de elemento
-    options.add_argument("--start-maximized")
     options.add_argument("--headless")              # modo sem GUI
     options.add_argument("--no-sandbox")            # necessário no container
     options.add_argument("--disable-dev-shm-usage") # evita falta de memória compartilhada
+    options.add_argument("--disable-extensions") 
+    options.add_argument("--ignore-certificate-errors") 
+    options.add_argument("--disable-gpu") 
 
     if headless:
         options.add_argument("--headless")
 
-    hub = os.getenv("SELENIUM_HUB", "http://localhost:4444/wd/hub")
-    # 3) connect to the remote Selenium service
-    driver = webdriver.Remote(command_executor=hub, options=options)
+    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
-
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    driver = webdriver.Chrome(service=chrome_service,options=options)
 
     driver.get(url)
 
