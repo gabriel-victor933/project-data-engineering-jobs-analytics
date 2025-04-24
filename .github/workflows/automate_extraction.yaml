@@ -16,11 +16,14 @@ jobs:
       POSTGRES_DATABASE: ${{secrets.POSTGRES_DATABASE}}
       POSTGRES_HOST: ${{secrets.POSTGRES_HOST}}
       POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: --shm-size=2gb
     steps:
       - uses: actions/checkout@v4  
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11' 
-
       - run: pip install -r requirements.txt
       - run: python main.py
