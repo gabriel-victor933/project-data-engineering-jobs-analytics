@@ -26,13 +26,14 @@ try:
     current_page = 1
 
     driver.find_element(By.XPATH,'/html/body/div[2]/div[4]/span').click()
-
+    print(total_pages)
     time.sleep(1)
 
     now = datetime.datetime.now()
 
     for i in range(1,total_pages + 1):
         try:
+            print('running to here')
             driver.get(f'{URL}order=mais-antigos&data-da-publicacao=menos-de-3-dias-atras&page={i}')
         
             time.sleep(1)

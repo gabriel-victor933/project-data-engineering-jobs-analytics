@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By # type: ignore
 from selenium.webdriver.chrome.service import Service # type: ignore
 from webdriver_manager.chrome import ChromeDriverManager # type: ignore
 from webdriver_manager.core.os_manager import ChromeType # type: ignore
+from selenium.webdriver.chrome.options import Options # type: ignore
 import os
 import psycopg2 # type: ignore
 from itertools import product
@@ -18,7 +19,7 @@ PORT = os.environ['POSTGRES_PORT']
 URL = os.environ['URL_SKILLS']
 
 def get_webdriver(url, headless=True):
-    options = options = webdriver.ChromeOptions()
+    options = Options()
     options.timeouts = { 'implicit': 5000 } # Espera de 5s na localizacao de elemento
     options.add_argument("--headless")              # modo sem GUI
     options.add_argument("--no-sandbox")            # necessário no container
