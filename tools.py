@@ -27,10 +27,10 @@ def get_webdriver(url, headless=True):
     if headless:
         options.add_argument("--headless")
 
-    #service = Service("/usr/local/bin/chromedriver")
-    #driver = webdriver.Chrome(service=service, options=options)
+    service = Service("/usr/local/bin/chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
 
     driver.get(url)
 
