@@ -15,7 +15,8 @@ print('initiating extraction!')
 load_dotenv()
 
 URL = os.environ['URL_JOBS']
-print(f'teste: {type(URL)}')
+print(f'teste: {len(URL)}')
+print(f'teste: {URL[8:]}')
 
 try:
     driver = get_webdriver(f'https://www.99freelas.com.br/projects?&data-da-publicacao=menos-de-3-dias-atras',headless=True)
