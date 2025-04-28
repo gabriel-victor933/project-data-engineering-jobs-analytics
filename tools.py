@@ -33,8 +33,10 @@ def get_webdriver(url, headless=True):
         options.add_argument("--headless")
 
     if DEV:
+        print('local')
         driver = webdriver.Chrome(options=options)
     else:
+        print('remote')
         chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
         driver = webdriver.Chrome(service=chrome_service,options=options)  
 

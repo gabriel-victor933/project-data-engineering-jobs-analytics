@@ -1,7 +1,7 @@
 name: Automate extraction
 
 on: 
-  push:
+  workflow_dispatch::
 
 jobs:
   build:
