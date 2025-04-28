@@ -32,7 +32,7 @@ def get_webdriver(url, headless=True):
     if headless:
         options.add_argument("--headless")
 
-    if DEV:
+    if DEV=='true':
         print('local')
         driver = webdriver.Chrome(options=options)
     else:
