@@ -17,6 +17,7 @@ DB = os.environ['POSTGRES_DATABASE']
 HOST = os.environ['POSTGRES_HOST']
 PORT = os.environ['POSTGRES_PORT']
 URL = os.environ['URL_SKILLS']
+DEV = os.environ['DEV']
 
 def get_webdriver(url, headless=True):
     options = Options()
@@ -31,9 +32,12 @@ def get_webdriver(url, headless=True):
     if headless:
         options.add_argument("--headless")
 
-    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+    if DEV:
+        driver = webdriver.Chrome(options=options)
+    else:
+        chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
+        driver = webdriver.Chrome(service=chrome_service,options=options)  
 
-    driver = webdriver.Chrome(service=chrome_service,options=options)
 
     driver.get(url)
 
