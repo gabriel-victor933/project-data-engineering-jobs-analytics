@@ -5,3 +5,4 @@ bin
 ./__pycache__
 script/__pycache__
 *.pyc
+node_modules
